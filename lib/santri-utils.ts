@@ -1,10 +1,17 @@
 import type { SantriData } from "@/types/santri"
 
 export const getWeekRange = (dateStr: string) => {
-  const date = new Date(dateStr)
-  const dayOfWeek = date.getDay() // 0 = Sunday, 1 = Monday, ..., 5 = Friday, 6 = Saturday
+  if (!dateStr) {
+    return { start: null, end: null }
+  }
 
-  // Calculate days to subtract to get to Friday
+  const date = new Date(dateStr)
+  if (isNaN(date.getTime())) {
+    return { start: null, end: null }
+  }
+
+  const dayOfWeek = date.getDay()
+
   let daysToFriday
   if (dayOfWeek >= 5) {
     daysToFriday = dayOfWeek - 5
@@ -23,6 +30,7 @@ export const getWeekRange = (dateStr: string) => {
     end: thursday.toISOString().split("T")[0],
   }
 }
+
 
 export const getCurrentWeekRange = () => {
   const today = new Date()
